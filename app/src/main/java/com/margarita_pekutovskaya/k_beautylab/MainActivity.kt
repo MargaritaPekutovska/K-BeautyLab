@@ -11,37 +11,27 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.margarita_pekutovskaya.k_beautylab.compose.CosmeticCatalogueScreen
+import com.margarita_pekutovskaya.k_beautylab.data.CosmeticsRepository
+import com.margarita_pekutovskaya.k_beautylab.data.SampleDataSource
 import com.margarita_pekutovskaya.k_beautylab.ui.theme.KBeautyLabTheme
+import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val viewModel = CosmeticCatalogueViewModel(
+            CosmeticsRepository(
+                SampleDataSource()
+            )
+        )
         setContent {
             KBeautyLabTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    CosmeticCatalogueScreen(modifier = Modifier.fillMaxSize(), viewModel)
                 }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    KBeautyLabTheme {
-        Greeting("Android")
-    }
-}
