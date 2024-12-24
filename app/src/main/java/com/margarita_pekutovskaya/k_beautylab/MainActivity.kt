@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.margarita_pekutovskaya.k_beautylab.compose.CosmeticCatalogueScreen
 import com.margarita_pekutovskaya.k_beautylab.data.CosmeticsRepository
 import com.margarita_pekutovskaya.k_beautylab.data.SampleDataSource
@@ -28,7 +29,10 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             KBeautyLabTheme {
-                    CosmeticCatalogueScreen(modifier = Modifier.fillMaxSize(), viewModel)
+                    CosmeticCatalogueScreen(
+                        modifier = Modifier.fillMaxSize().padding(top = 28.dp),
+                        viewModel = viewModel
+                    )
                 }
             }
         }
