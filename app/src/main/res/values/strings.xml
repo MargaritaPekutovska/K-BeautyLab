@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">K-BeautyLab</string>
+    <string name="error_message">Something went wrong. Try again later</string>
 </resources>
