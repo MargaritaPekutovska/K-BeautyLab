@@ -36,7 +36,7 @@ fun CosmeticCatalogueScreen(
     val uiState: CosmeticCatalogueUIState = viewModel.uiState
     when (uiState) {
         is CosmeticCatalogueUIState.ShowProgressIndicator -> {
-            CircularProgressDemo()
+            ShowProgressIndicator()
         }
 
         is CosmeticCatalogueUIState.Error -> {
@@ -55,7 +55,7 @@ fun CosmeticCatalogueScreen(
 }
 
 @Composable
-fun CircularProgressDemo() {
+fun ShowProgressIndicator() {
     CircularProgressIndicator(
         progress = { 0.7f },
         modifier = Modifier
