@@ -2,7 +2,6 @@ package com.margarita_pekutovskaya.k_beautylab.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,11 +16,12 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
 import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun CosmeticCatalogueScreen(
     modifier: Modifier = Modifier,
-    viewModel: CosmeticCatalogueViewModel
+    viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
     val cosmeticItems: List<CosmeticItem> = remember { viewModel.getCosmeticItems() }
     LazyColumn(modifier = modifier) {
