@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.margarita_pekutovskaya.k_beautylab.data.CosmeticsRepository
-import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -23,16 +22,15 @@ class CosmeticCatalogueViewModel(
     init {
         viewModelScope.launch {
             delay(2000) // temporary for testing progress indicator
-            getCosmeticItems()
+            fetchCosmeticItems()
         }
     }
 
-    private fun getCosmeticItems() {
+    fun fetchCosmeticItems() {
         try {
             val cosmeticItems = cosmeticsRepository.getCosmeticItems()
             uiState = CosmeticCatalogueUIState.DataLoaded(cosmeticItems)
-        }
-        catch (exception:Exception){
+        } catch (exception: Exception) {
             uiState = CosmeticCatalogueUIState.Error(exception)
         }
     }
