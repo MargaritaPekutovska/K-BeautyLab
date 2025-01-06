@@ -1,10 +1,12 @@
 package com.margarita_pekutovskaya.k_beautylab.data
 
+import com.margarita_pekutovskaya.k_beautylab.data.client.CosmeticsApiClient
 import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
 
-class RemoteDataSource:DataSource {
-    override fun getCosmeticItems(): List<CosmeticItem> {
-        TODO("Not yet implemented")
-    }
+class RemoteDataSource(var cosmeticsApiClient: CosmeticsApiClient) : DataSource {
+    override suspend fun getCosmeticItems(): List<CosmeticItem> {
 
+        val cosmeticsApi = cosmeticsApiClient.provideCosmeticsApi()
+         return cosmeticsApi.fetchCosmeticProducts()
+    }
 }

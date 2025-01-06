@@ -22,7 +22,7 @@ class SampleDataSource : DataSource {
         ),
     )
 
-    override fun getCosmeticItems(): List<CosmeticItem> {
+    override suspend fun getCosmeticItems(): List<CosmeticItem> {
         return cosmeticItemsList
     }
 }
