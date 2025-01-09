@@ -6,7 +6,7 @@ class CosmeticsRepository(
     private val dataSource: DataSource
 ) {
 
-    fun getCosmeticItems(): List<CosmeticItem> {
+    suspend fun getCosmeticItems(): List<CosmeticItem> {
         return dataSource.getCosmeticItems()
     }
 }
