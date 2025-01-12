@@ -15,8 +15,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -46,31 +45,21 @@ import com.margarita_pekutovskaya.k_beautylab.uiState.CosmeticCatalogueUIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CosmeticScreen(modifier: Modifier) {
+fun CosmeticCatalogueScreen(modifier: Modifier) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "Menu")
+                    Text(text = stringResource( R.string.toolbar_description_catalogue))
                 },
                 modifier = Modifier.background(color = Color.Green),
-                navigationIcon = {
-                    IconButton(
-                        onClick = {}
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = "Menu"
-                        )
-                    }
-                },
                 actions = {
                     IconButton(
                         onClick = {}
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.Add,
-                            contentDescription = "Menu"
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = stringResource(R.string.toolbar_icon_description)
                         )
                     }
                 }
@@ -85,13 +74,12 @@ fun CosmeticScreen(modifier: Modifier) {
 
 @Composable
 private fun CosmeticCatalogueScreen(
-    innerPaddingValues: PaddingValues,
+    innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
 
-    val uiState: CosmeticCatalogueUIState = viewModel.uiState
-    when (uiState) {
+    when (val uiState: CosmeticCatalogueUIState = viewModel.uiState) {
         is CosmeticCatalogueUIState.ShowProgressIndicator -> {
             ShowProgressIndicator()
         }
@@ -104,7 +92,7 @@ private fun CosmeticCatalogueScreen(
 
         is CosmeticCatalogueUIState.DataLoaded -> {
             val cosmeticItems: List<CosmeticItem> = uiState.cosmeticItems
-            LazyColumn(modifier = modifier.padding(innerPaddingValues)) {
+            LazyColumn(modifier = modifier.padding(innerPadding)) {
                 items(cosmeticItems) {
                     CosmeticCatalogueItem(item = it)
                 }
@@ -114,9 +102,8 @@ private fun CosmeticCatalogueScreen(
 }
 
 @Composable
-fun ShowProgressIndicator() {
+private fun ShowProgressIndicator() {
     CircularProgressIndicator(
-        progress = { 0.7f },
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.Center),
@@ -126,7 +113,7 @@ fun ShowProgressIndicator() {
 }
 
 @Composable
-fun ShowErrorMessage(
+private fun ShowErrorMessage(
     onRetryClick: () -> Unit
 ) {
     Column(

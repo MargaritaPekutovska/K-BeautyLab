@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import com.margarita_pekutovskaya.k_beautylab.compose.CosmeticScreen
+import com.margarita_pekutovskaya.k_beautylab.compose.CosmeticCatalogueScreen
 import com.margarita_pekutovskaya.k_beautylab.ui.theme.KBeautyLabTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             KBeautyLabTheme {
-                CosmeticScreen(
+                CosmeticCatalogueScreen(
                         modifier = Modifier.fillMaxSize(),
                     )
                 }
