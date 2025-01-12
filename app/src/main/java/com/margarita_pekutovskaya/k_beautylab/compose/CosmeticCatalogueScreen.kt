@@ -36,12 +36,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
-import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
-import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil3.compose.AsyncImage
 import com.margarita_pekutovskaya.k_beautylab.R
+import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
 import com.margarita_pekutovskaya.k_beautylab.uiState.CosmeticCatalogueUIState
+import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +50,7 @@ fun CosmeticCatalogueScreen(modifier: Modifier) {
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = stringResource( R.string.toolbar_description_catalogue))
+                    Text(text = stringResource(R.string.toolbar_description_catalogue))
                 },
                 modifier = Modifier.background(color = Color.Green),
                 actions = {
@@ -67,13 +67,12 @@ fun CosmeticCatalogueScreen(modifier: Modifier) {
         }
     )
     { innerPadding ->
-        CosmeticCatalogueScreen(innerPadding, modifier = modifier)
+        CosmeticCatalogueContent(innerPadding, modifier = modifier)
     }
 }
 
-
 @Composable
-private fun CosmeticCatalogueScreen(
+private fun CosmeticCatalogueContent(
     innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
