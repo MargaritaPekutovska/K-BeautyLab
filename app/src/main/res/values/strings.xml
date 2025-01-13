@@ -3,4 +3,6 @@
     <string name="ops_error">Oops</string>
     <string name="error_message">Something went wrong. Try again later</string>
     <string name="try_again">Try Again</string>
+    <string name="toolbar_description_catalogue">Cosmetics catalogue</string>
+    <string name="toolbar_icon_description">Search</string>
 </resources>

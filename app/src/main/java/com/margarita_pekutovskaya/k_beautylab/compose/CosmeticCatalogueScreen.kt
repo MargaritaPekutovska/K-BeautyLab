@@ -1,7 +1,9 @@
 package com.margarita_pekutovskaya.k_beautylab.compose
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,11 +14,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,23 +33,52 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
-import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
-import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil3.compose.AsyncImage
 import com.margarita_pekutovskaya.k_beautylab.R
+import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
 import com.margarita_pekutovskaya.k_beautylab.uiState.CosmeticCatalogueUIState
+import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CosmeticCatalogueScreen(modifier: Modifier) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(R.string.toolbar_description_catalogue))
+                },
+                modifier = Modifier.background(color = Color.Green),
+                actions = {
+                    IconButton(
+                        onClick = {}
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = stringResource(R.string.toolbar_icon_description)
+                        )
+                    }
+                }
+            )
+        }
+    )
+    { innerPadding ->
+        CosmeticCatalogueContent(innerPadding, modifier = modifier)
+    }
+}
 
 @Composable
-fun CosmeticCatalogueScreen(
+private fun CosmeticCatalogueContent(
+    innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
 
-    val uiState: CosmeticCatalogueUIState = viewModel.uiState
-    when (uiState) {
+    when (val uiState: CosmeticCatalogueUIState = viewModel.uiState) {
         is CosmeticCatalogueUIState.ShowProgressIndicator -> {
             ShowProgressIndicator()
         }
@@ -54,7 +91,7 @@ fun CosmeticCatalogueScreen(
 
         is CosmeticCatalogueUIState.DataLoaded -> {
             val cosmeticItems: List<CosmeticItem> = uiState.cosmeticItems
-            LazyColumn(modifier = modifier) {
+            LazyColumn(modifier = modifier.padding(innerPadding)) {
                 items(cosmeticItems) {
                     CosmeticCatalogueItem(item = it)
                 }
@@ -64,9 +101,8 @@ fun CosmeticCatalogueScreen(
 }
 
 @Composable
-fun ShowProgressIndicator() {
+private fun ShowProgressIndicator() {
     CircularProgressIndicator(
-        progress = { 0.7f },
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.Center),
@@ -76,7 +112,7 @@ fun ShowProgressIndicator() {
 }
 
 @Composable
-fun ShowErrorMessage(
+private fun ShowErrorMessage(
     onRetryClick: () -> Unit
 ) {
     Column(
@@ -95,7 +131,7 @@ fun ShowErrorMessage(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text= stringResource(id= R.string.ops_error),
+            text = stringResource(id = R.string.ops_error),
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.bodyLarge,
@@ -144,6 +180,8 @@ private fun CosmeticCatalogueItem(
             )
             Text(
                 text = item.description,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
                 fontSize = 14.sp,
             )
         }
