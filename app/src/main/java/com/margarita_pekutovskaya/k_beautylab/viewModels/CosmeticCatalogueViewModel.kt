@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.margarita_pekutovskaya.k_beautylab.data.RemoteDataSource
-import com.margarita_pekutovskaya.k_beautylab.data.SampleDataSource
 import com.margarita_pekutovskaya.k_beautylab.data.client.CosmeticsApiClient
 import com.margarita_pekutovskaya.k_beautylab.uiState.CosmeticCatalogueUIState
 import kotlinx.coroutines.delay
@@ -22,7 +21,7 @@ class CosmeticCatalogueViewModel(
         private set
 
     init {
-       fetchCosmeticItems()
+        fetchCosmeticItems()
     }
 
     fun fetchCosmeticItems() {
@@ -32,7 +31,11 @@ class CosmeticCatalogueViewModel(
         }
     }
 
-    private suspend fun fetchCosmeticInternally(){
+    fun performSearch() {
+
+    }
+
+    private suspend fun fetchCosmeticInternally() {
         try {
             val cosmeticItems = cosmeticsRepository.getCosmeticItems()
             uiState = CosmeticCatalogueUIState.DataLoaded(cosmeticItems)
