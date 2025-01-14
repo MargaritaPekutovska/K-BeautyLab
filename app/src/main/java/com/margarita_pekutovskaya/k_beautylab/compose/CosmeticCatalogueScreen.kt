@@ -1,6 +1,5 @@
 package com.margarita_pekutovskaya.k_beautylab.compose
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,20 +45,29 @@ import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewMo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CosmeticCatalogueScreen(modifier: Modifier) {
+fun CosmeticCatalogueScreen(
+    modifier: Modifier,
+    viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(text = stringResource(R.string.toolbar_description_catalogue))
                 },
-                modifier = Modifier.background(color = Color.Green),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.DarkGray,
+                    titleContentColor = Color.White
+                ),
                 actions = {
                     IconButton(
-                        onClick = {}
+                        onClick = {
+                            viewModel.performSearch()
+                        }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Search,
+                            tint = Color.White,
                             contentDescription = stringResource(R.string.toolbar_icon_description)
                         )
                     }
@@ -67,17 +76,20 @@ fun CosmeticCatalogueScreen(modifier: Modifier) {
         }
     )
     { innerPadding ->
-        CosmeticCatalogueContent(innerPadding, modifier = modifier)
+        CosmeticCatalogueContent(
+            innerPadding = innerPadding,
+            viewModel = viewModel,
+            modifier = modifier
+        )
     }
 }
 
 @Composable
 private fun CosmeticCatalogueContent(
     innerPadding: PaddingValues,
-    modifier: Modifier = Modifier,
-    viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
+    viewModel: CosmeticCatalogueViewModel,
+    modifier: Modifier = Modifier
 ) {
-
     when (val uiState: CosmeticCatalogueUIState = viewModel.uiState) {
         is CosmeticCatalogueUIState.ShowProgressIndicator -> {
             ShowProgressIndicator()
@@ -155,7 +167,6 @@ private fun ShowErrorMessage(
             Text(text = stringResource(id = R.string.try_again))
         }
     }
-
 }
 
 @Composable
@@ -169,7 +180,6 @@ private fun CosmeticCatalogueItem(
             contentDescription = null,
             modifier = Modifier
                 .size(200.dp)
-
         )
 
         Column(modifier = modifier.padding(start = 12.dp)) {
