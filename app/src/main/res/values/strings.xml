@@ -5,4 +5,5 @@
     <string name="try_again">Try Again</string>
     <string name="toolbar_description_catalogue">Cosmetics catalogue</string>
     <string name="toolbar_icon_description">Search</string>
+    <string name="toolbar_search_items">Search cosmetics items</string>
 </resources>
