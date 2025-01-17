@@ -22,10 +22,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,30 +54,56 @@ fun CosmeticCatalogueScreen(
     modifier: Modifier,
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
+    var isSearchActive by remember { mutableStateOf(false) }
+    val searchQuery by remember { mutableStateOf("") }
+
+
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(R.string.toolbar_description_catalogue))
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.DarkGray,
-                    titleContentColor = Color.White
-                ),
-                actions = {
-                    IconButton(
-                        onClick = {
-                            viewModel.performSearch()
-                        }
-                    ) {
+            if (isSearchActive) {
+                SearchBar(
+                    query = searchQuery,
+                    onQueryChange = { },
+                    onSearch = {},
+                    active = true,
+                    onActiveChange = {},
+                    placeholder = {
+                        Text(text = stringResource(R.string.toolbar_search_items))
+                    },
+                    leadingIcon = {
                         Icon(
-                            imageVector = Icons.Filled.Search,
-                            tint = Color.White,
-                            contentDescription = stringResource(R.string.toolbar_icon_description)
+                            imageVector = Icons.Default.Search,
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            contentDescription = null
                         )
+                    },
+                    trailingIcon = { },
+                    tonalElevation = 0.dp,
+                ) {}
+            } else {
+                TopAppBar(
+                    title = {
+                        Text(text = stringResource(R.string.toolbar_description_catalogue))
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.DarkGray,
+                        titleContentColor = Color.White
+                    ),
+                    actions = {
+                        IconButton(
+                            onClick = {
+                                isSearchActive = true
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Search,
+                                tint = Color.White,
+                                contentDescription = stringResource(R.string.toolbar_icon_description)
+                            )
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     )
     { innerPadding ->
