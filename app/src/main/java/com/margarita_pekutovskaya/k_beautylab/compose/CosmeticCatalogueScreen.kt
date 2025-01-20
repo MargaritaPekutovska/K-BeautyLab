@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.margarita_pekutovskaya.k_beautylab.compose
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,6 +17,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -48,61 +52,21 @@ import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
 import com.margarita_pekutovskaya.k_beautylab.uiState.CosmeticCatalogueUIState
 import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CosmeticCatalogueScreen(
     modifier: Modifier,
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
     var isSearchActive by remember { mutableStateOf(false) }
-    val searchQuery by remember { mutableStateOf("") }
-
 
     Scaffold(
         topBar = {
             if (isSearchActive) {
-                SearchBar(
-                    query = searchQuery,
-                    onQueryChange = { },
-                    onSearch = {},
-                    active = true,
-                    onActiveChange = {},
-                    placeholder = {
-                        Text(text = stringResource(R.string.toolbar_search_items))
-                    },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            tint = MaterialTheme.colorScheme.onSurface,
-                            contentDescription = null
-                        )
-                    },
-                    trailingIcon = { },
-                    tonalElevation = 0.dp,
-                ) {}
-            } else {
-                TopAppBar(
-                    title = {
-                        Text(text = stringResource(R.string.toolbar_description_catalogue))
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.DarkGray,
-                        titleContentColor = Color.White
-                    ),
-                    actions = {
-                        IconButton(
-                            onClick = {
-                                isSearchActive = true
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Search,
-                                tint = Color.White,
-                                contentDescription = stringResource(R.string.toolbar_icon_description)
-                            )
-                        }
-                    }
+                SearchBarPanel(
+                    onBackClick = { isSearchActive = false }
                 )
+            } else {
+                CatalogueTopBar(onSearchClick = { isSearchActive = true })
             }
         }
     )
@@ -113,6 +77,64 @@ fun CosmeticCatalogueScreen(
             modifier = modifier
         )
     }
+}
+
+@Composable
+private fun SearchBarPanel(
+    onBackClick: () -> Unit
+) {
+    val searchQuery by remember { mutableStateOf("") }
+
+    SearchBar(
+        query = searchQuery,
+        onQueryChange = { },
+        onSearch = {},
+        active = true,
+        onActiveChange = {},
+        placeholder = {
+            Text(text = stringResource(R.string.toolbar_search_items))
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                tint = MaterialTheme.colorScheme.onSurface,
+                contentDescription = null
+            )
+        },
+        trailingIcon = {
+            Icon(
+                imageVector = Icons.Default.Close,
+                tint = MaterialTheme.colorScheme.onSurface,
+                contentDescription = null,
+                modifier = Modifier.clickable {
+                    onBackClick.invoke()
+                }
+            )
+        },
+        tonalElevation = 0.dp,
+    ) {}
+}
+
+@Composable
+private fun CatalogueTopBar(onSearchClick: () -> Unit) {
+    TopAppBar(
+        title = {
+            Text(text = stringResource(R.string.toolbar_description_catalogue))
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.DarkGray,
+            titleContentColor = Color.White
+        ),
+        actions = {
+            IconButton(onClick = onSearchClick) {
+                Icon(
+                    imageVector = Icons.Filled.Search,
+                    tint = Color.White,
+                    contentDescription = stringResource(R.string.toolbar_icon_description)
+                )
+            }
+        }
+    )
 }
 
 @Composable
