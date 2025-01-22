@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,13 +58,14 @@ fun CosmeticCatalogueScreen(
     modifier: Modifier,
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
-    var isSearchActive by remember { mutableStateOf(false) }
+    var isSearchActive by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             if (isSearchActive) {
                 SearchBarPanel(
-                    onBackClick = { isSearchActive = false }
+                    onBackClick = { isSearchActive = false },
+                    viewModel = viewModel
                 )
             } else {
                 CatalogueTopBar(onSearchClick = { isSearchActive = true })
@@ -81,14 +83,19 @@ fun CosmeticCatalogueScreen(
 
 @Composable
 private fun SearchBarPanel(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    viewModel: CosmeticCatalogueViewModel
 ) {
-    val searchQuery by remember { mutableStateOf("") }
+    var searchQuery by remember { mutableStateOf("") }
 
     SearchBar(
         query = searchQuery,
-        onQueryChange = { },
-        onSearch = {},
+        onQueryChange = { newQuery ->
+            searchQuery = newQuery
+        },
+        onSearch = {
+            viewModel.performSearch(searchQuery)
+        },
         active = true,
         onActiveChange = {},
         placeholder = {
@@ -112,7 +119,13 @@ private fun SearchBarPanel(
             )
         },
         tonalElevation = 0.dp,
-    ) {}
+        content = {
+            CosmeticCatalogueContent(
+                innerPadding = PaddingValues(all = 4.dp),
+                viewModel = viewModel,
+            )
+        }
+    )
 }
 
 @Composable

@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class CosmeticsApiClient {
     private val BASE_URL = "http://makeup-api.herokuapp.com/"
 
-    fun getInstance(): Retrofit {
+   private fun getInstance(): Retrofit {
         return Retrofit.Builder().baseUrl(BASE_URL)
             .addConverterFactory(
                 GsonConverterFactory.create())
