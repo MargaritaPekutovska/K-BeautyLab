@@ -1,5 +1,6 @@
 package com.margarita_pekutovskaya.k_beautylab.viewModels
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -17,6 +18,7 @@ class CosmeticCatalogueViewModel(
     private val cosmeticsRepository: CosmeticsRepository
 ) : ViewModel() {
 
+
     var uiState by mutableStateOf<CosmeticCatalogueUIState>(CosmeticCatalogueUIState.ShowProgressIndicator)
         private set
 
@@ -31,8 +33,20 @@ class CosmeticCatalogueViewModel(
         }
     }
 
-    fun performSearch() {
-
+    fun performSearch(searchQuery: String) {
+        Log.d(TAG, "the query is $searchQuery")
+        viewModelScope.launch {
+            try {
+                val filteredCosmeticItems = cosmeticsRepository
+                    .getCosmeticItems()
+                    .filter { cosmeticItem ->
+                        cosmeticItem.name.contains(searchQuery, ignoreCase = true)
+                    }
+                uiState = CosmeticCatalogueUIState.DataLoaded(filteredCosmeticItems)
+            } catch (exception: Exception) {
+                uiState = CosmeticCatalogueUIState.Error(exception)
+            }
+        }
     }
 
     private suspend fun fetchCosmeticInternally() {
@@ -45,6 +59,8 @@ class CosmeticCatalogueViewModel(
     }
 
     companion object {
+        private const val TAG = "CosmeticCatalogueViewModel"
+
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
