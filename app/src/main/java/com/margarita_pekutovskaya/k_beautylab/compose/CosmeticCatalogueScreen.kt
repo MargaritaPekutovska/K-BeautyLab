@@ -44,12 +44,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.margarita_pekutovskaya.k_beautylab.R
 import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
+import com.margarita_pekutovskaya.k_beautylab.ui.theme.KBeautyLabTheme
 import com.margarita_pekutovskaya.k_beautylab.uiState.CosmeticCatalogueUIState
 import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
 
@@ -261,5 +263,29 @@ private fun CosmeticCatalogueItem(
                 fontSize = 14.sp,
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ShowErrorMessagePreview(){
+    KBeautyLabTheme {
+        ShowErrorMessage(
+            onRetryClick = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CosmeticCatalogueItemPreview(){
+    KBeautyLabTheme {
+        CosmeticCatalogueItem(
+            item = CosmeticItem(
+                name = "Toner",
+                imageLink = "https://media.douglas.de/medias/pJN9iQ1103976-0-global.png?context=bWFzdGVyfGltYWdlc3wyODE5Mzl8aW1hZ2UvcG5nfGFHRmxMMmd5TkM4MU1EUTFPVGs1TmpVMU16STBOaTl3U2s0NWFWRXhNVEF6T1RjMlh6QmZaMnh2WW1Gc0xuQnVad3wyOWRjODM0NDlmMzRlMjg3YjY4NTgyZmE4ZGQ4OTE0YWY1OGE4ZTk4YzY5MzRhYzg4OGU0NDEwNGZmMWFlMDdk&grid=true&transparent=true&imPolicy=grayScaledtransparent&imdensity=1&imwidth=775",
+                description = "Toner with centella for problem skin."
+            ),
+        )
     }
 }

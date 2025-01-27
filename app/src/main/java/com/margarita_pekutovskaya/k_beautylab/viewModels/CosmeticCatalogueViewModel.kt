@@ -18,7 +18,6 @@ class CosmeticCatalogueViewModel(
     private val cosmeticsRepository: CosmeticsRepository
 ) : ViewModel() {
 
-
     var uiState by mutableStateOf<CosmeticCatalogueUIState>(CosmeticCatalogueUIState.ShowProgressIndicator)
         private set
 
