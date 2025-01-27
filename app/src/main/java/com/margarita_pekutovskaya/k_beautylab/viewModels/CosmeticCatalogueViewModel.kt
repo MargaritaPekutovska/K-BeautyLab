@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.margarita_pekutovskaya.k_beautylab.data.RemoteDataSource
 import com.margarita_pekutovskaya.k_beautylab.data.client.CosmeticsApiClient
+import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
 import com.margarita_pekutovskaya.k_beautylab.uiState.CosmeticCatalogueUIState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class CosmeticCatalogueViewModel(
@@ -27,30 +27,30 @@ class CosmeticCatalogueViewModel(
 
     fun fetchCosmeticItems() {
         viewModelScope.launch {
-            delay(2000) // temporary for testing progress indicator
-            fetchCosmeticInternally()
+            runOnCosmeticList {
+                cosmeticsRepository.getCosmeticItems()
+            }
         }
     }
 
     fun performSearch(searchQuery: String) {
         Log.d(TAG, "the query is $searchQuery")
         viewModelScope.launch {
-            try {
-                val filteredCosmeticItems = cosmeticsRepository
+            runOnCosmeticList {
+                cosmeticsRepository
                     .getCosmeticItems()
                     .filter { cosmeticItem ->
-                        cosmeticItem.name.contains(searchQuery, ignoreCase = true)
-                    }
-                uiState = CosmeticCatalogueUIState.DataLoaded(filteredCosmeticItems)
-            } catch (exception: Exception) {
-                uiState = CosmeticCatalogueUIState.Error(exception)
+                    cosmeticItem.name.contains(searchQuery, ignoreCase = true)
+                }
             }
         }
     }
 
-    private suspend fun fetchCosmeticInternally() {
+    private suspend fun runOnCosmeticList(
+        getCosmeticItems: suspend () -> List<CosmeticItem>
+    ) {
         try {
-            val cosmeticItems = cosmeticsRepository.getCosmeticItems()
+            val cosmeticItems = getCosmeticItems()
             uiState = CosmeticCatalogueUIState.DataLoaded(cosmeticItems)
         } catch (exception: Exception) {
             uiState = CosmeticCatalogueUIState.Error(exception)
@@ -69,7 +69,6 @@ class CosmeticCatalogueViewModel(
                     repository
                 ) as T
             }
-
         }
     }
 }
