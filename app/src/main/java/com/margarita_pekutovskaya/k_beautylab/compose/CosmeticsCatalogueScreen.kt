@@ -2,6 +2,7 @@
 
 package com.margarita_pekutovskaya.k_beautylab.compose
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -56,7 +57,7 @@ import com.margarita_pekutovskaya.k_beautylab.uiState.CosmeticCatalogueUIState
 import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
 
 @Composable
-fun CosmeticCatalogueScreen(
+fun CosmeticsCatalogueScreen(
     modifier: Modifier,
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
@@ -75,10 +76,10 @@ fun CosmeticCatalogueScreen(
         }
     )
     { innerPadding ->
-        CosmeticCatalogueContent(
+        CosmeticsCatalogueContent(
             innerPadding = innerPadding,
             viewModel = viewModel,
-            modifier = modifier
+            modifier = modifier,
         )
     }
 }
@@ -122,7 +123,7 @@ private fun SearchBarPanel(
         },
         tonalElevation = 0.dp,
         content = {
-            CosmeticCatalogueContent(
+            CosmeticsCatalogueContent(
                 innerPadding = PaddingValues(all = 4.dp),
                 viewModel = viewModel,
             )
@@ -153,10 +154,10 @@ private fun CatalogueTopBar(onSearchClick: () -> Unit) {
 }
 
 @Composable
-private fun CosmeticCatalogueContent(
+private fun CosmeticsCatalogueContent(
     innerPadding: PaddingValues,
     viewModel: CosmeticCatalogueViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     when (val uiState: CosmeticCatalogueUIState = viewModel.uiState) {
         is CosmeticCatalogueUIState.ShowProgressIndicator -> {
@@ -173,7 +174,9 @@ private fun CosmeticCatalogueContent(
             val cosmeticItems: List<CosmeticItem> = uiState.cosmeticItems
             LazyColumn(modifier = modifier.padding(innerPadding)) {
                 items(cosmeticItems) {
-                    CosmeticCatalogueItem(item = it)
+                    CosmeticsCatalogueItem(item = it, onItemClick = {
+                        Log.d("Details", "Item : ${it.name} is clicked")
+                    })
                 }
             }
         }
@@ -238,11 +241,16 @@ private fun ShowErrorMessage(
 }
 
 @Composable
-private fun CosmeticCatalogueItem(
+private fun CosmeticsCatalogueItem(
     modifier: Modifier = Modifier,
     item: CosmeticItem,
+    onItemClick: (CosmeticItem) -> Unit
 ) {
-    Row(modifier = modifier.padding(12.dp)) {
+    Row(
+        modifier = modifier
+            .padding(12.dp)
+            .clickable { onItemClick(item) }
+    ) {
         AsyncImage(
             model = item.imageLink,
             contentDescription = null,
@@ -280,12 +288,13 @@ fun ShowErrorMessagePreview(){
 @Composable
 fun CosmeticCatalogueItemPreview(){
     KBeautyLabTheme {
-        CosmeticCatalogueItem(
+        CosmeticsCatalogueItem(
             item = CosmeticItem(
                 name = "Toner",
                 imageLink = "https://media.douglas.de/medias/pJN9iQ1103976-0-global.png?context=bWFzdGVyfGltYWdlc3wyODE5Mzl8aW1hZ2UvcG5nfGFHRmxMMmd5TkM4MU1EUTFPVGs1TmpVMU16STBOaTl3U2s0NWFWRXhNVEF6T1RjMlh6QmZaMnh2WW1Gc0xuQnVad3wyOWRjODM0NDlmMzRlMjg3YjY4NTgyZmE4ZGQ4OTE0YWY1OGE4ZTk4YzY5MzRhYzg4OGU0NDEwNGZmMWFlMDdk&grid=true&transparent=true&imPolicy=grayScaledtransparent&imdensity=1&imwidth=775",
                 description = "Toner with centella for problem skin."
             ),
+            onItemClick = {}
         )
     }
 }
