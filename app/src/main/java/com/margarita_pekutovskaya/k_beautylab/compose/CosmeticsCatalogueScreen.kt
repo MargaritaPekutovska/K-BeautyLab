@@ -2,7 +2,6 @@
 
 package com.margarita_pekutovskaya.k_beautylab.compose
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -59,6 +58,7 @@ import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewMo
 @Composable
 fun CosmeticsCatalogueScreen(
     modifier: Modifier,
+    onNavigateToDetails:() -> Unit,
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
     var isSearchActive by rememberSaveable { mutableStateOf(false) }
@@ -80,6 +80,9 @@ fun CosmeticsCatalogueScreen(
             innerPadding = innerPadding,
             viewModel = viewModel,
             modifier = modifier,
+            onNavigateToDetails = {
+                onNavigateToDetails()
+            }
         )
     }
 }
@@ -126,6 +129,7 @@ private fun SearchBarPanel(
             CosmeticsCatalogueContent(
                 innerPadding = PaddingValues(all = 4.dp),
                 viewModel = viewModel,
+                onNavigateToDetails = {}
             )
         }
     )
@@ -155,6 +159,7 @@ private fun CatalogueTopBar(onSearchClick: () -> Unit) {
 
 @Composable
 private fun CosmeticsCatalogueContent(
+    onNavigateToDetails:() -> Unit,
     innerPadding: PaddingValues,
     viewModel: CosmeticCatalogueViewModel,
     modifier: Modifier = Modifier,
@@ -174,9 +179,10 @@ private fun CosmeticsCatalogueContent(
             val cosmeticItems: List<CosmeticItem> = uiState.cosmeticItems
             LazyColumn(modifier = modifier.padding(innerPadding)) {
                 items(cosmeticItems) {
-                    CosmeticsCatalogueItem(item = it, onItemClick = {
-                        Log.d("Details", "Item : ${it.name} is clicked")
-                    })
+                    CosmeticsCatalogueItem(
+                        item = it,
+                        onItemClick = { onNavigateToDetails() }
+                    )
                 }
             }
         }
