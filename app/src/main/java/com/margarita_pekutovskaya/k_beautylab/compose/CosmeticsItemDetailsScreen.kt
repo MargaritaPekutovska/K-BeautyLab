@@ -1,8 +1,6 @@
 package com.margarita_pekutovskaya.k_beautylab.compose
 
 import android.annotation.SuppressLint
-import android.media.Image
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,13 +33,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.rememberAsyncImagePainter
-import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
+import com.margarita_pekutovskaya.k_beautylab.R
 import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -58,12 +55,14 @@ fun CosmeticsItemDetailsScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(text = "Cosmetics") },
+                    title = {
+                        Text(text = stringResource(id = R.string.top_app_bar_title))
+                    },
                     navigationIcon = {
                         IconButton(onClick = onNavigateBack) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Back"
+                                contentDescription = stringResource(id = R.string.top_bar_details_content_description)
                             )
                         }
                     }
@@ -76,7 +75,7 @@ fun CosmeticsItemDetailsScreen(
                         .background(Color(0xFFFCE4EC))
                         .padding(padding)
                         .padding(16.dp)
-                ){
+                ) {
                     Image(
                         painter = rememberAsyncImagePainter(model = cosmeticItem.imageLink),
                         contentDescription = cosmeticItem.name,
@@ -89,7 +88,7 @@ fun CosmeticsItemDetailsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text= cosmeticItem.name,
+                        text = cosmeticItem.name,
                         fontSize = 28.sp,
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold
@@ -99,17 +98,20 @@ fun CosmeticsItemDetailsScreen(
 
                     var isExpanded by remember { mutableStateOf(false) }
 
-                    Box(modifier = Modifier.clickable { isExpanded = !isExpanded }){
+                    Box(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
                         Column {
-                            Text (
-                                text= if (isExpanded) cosmeticItem.description else cosmeticItem.description.take(100)+ "...",
+                            Text(
+                                text = if (isExpanded) cosmeticItem.description else cosmeticItem.description.take(
+                                    100
+                                ) + "...",
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontSize = 18.sp,
                                 maxLines = if (isExpanded) Int.MAX_VALUE else 3
                             )
                             Spacer(modifier = Modifier.padding(6.dp))
                             Text(
-                                text = if(isExpanded) "Show Less" else "Show More",
+                                text = if (isExpanded) stringResource(id = R.string.top_bar_content_text1)
+                                else stringResource(id = R.string.top_bar_content_text2),
                                 color = Color.Blue,
                                 style = MaterialTheme.typography.bodySmall
                             )
@@ -129,15 +131,19 @@ fun CosmeticsItemDetailsScreen(
                             contentColor = Color.White
                         )
                     ) {
-                        Text (text= "Select Product")
+                        Text(text = stringResource(id = R.string.button_details_text))
                     }
                 }
             }
-
         )
 
-    } ?:run {
-        Text ("No cosmetic item selected", modifier = Modifier.fillMaxSize().padding(16.dp))
+    } ?: run {
+        Text(
+            stringResource(id = R.string.run_text),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        )
     }
 
     BackHandler {

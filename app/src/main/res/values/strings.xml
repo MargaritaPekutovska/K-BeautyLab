@@ -6,4 +6,10 @@
     <string name="toolbar_description_catalogue">Cosmetics catalogue</string>
     <string name="toolbar_icon_description">Search</string>
     <string name="toolbar_search_items">Search cosmetics items</string>
+    <string name="top_app_bar_title">Cosmetics</string>
+    <string name="top_bar_content_text1">show less</string>
+    <string name="top_bar_content_text2">show more</string>
+    <string name="button_details_text">Select Product</string>
+    <string name="run_text">No cosmetic item selected</string>
+    <string name="top_bar_details_content_description">Back</string>
 </resources>
