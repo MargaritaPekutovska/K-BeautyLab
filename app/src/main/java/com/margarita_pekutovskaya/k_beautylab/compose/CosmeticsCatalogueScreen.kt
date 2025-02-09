@@ -181,7 +181,10 @@ private fun CosmeticsCatalogueContent(
                 items(cosmeticItems) {
                     CosmeticsCatalogueItem(
                         item = it,
-                        onItemClick = { onNavigateToDetails() }
+                        onItemClick = {
+                            viewModel.selectedCosmeticItem = it
+                            onNavigateToDetails()
+                        }
                     )
                 }
             }

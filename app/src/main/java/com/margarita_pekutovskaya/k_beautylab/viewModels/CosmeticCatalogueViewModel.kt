@@ -21,6 +21,8 @@ class CosmeticCatalogueViewModel(
     var uiState by mutableStateOf<CosmeticCatalogueUIState>(CosmeticCatalogueUIState.ShowProgressIndicator)
         private set
 
+    var selectedCosmeticItem: CosmeticItem? = null
+
     init {
         fetchCosmeticItems()
     }
@@ -40,8 +42,8 @@ class CosmeticCatalogueViewModel(
                 cosmeticsRepository
                     .getCosmeticItems()
                     .filter { cosmeticItem ->
-                    cosmeticItem.name.contains(searchQuery, ignoreCase = true)
-                }
+                        cosmeticItem.name.contains(searchQuery, ignoreCase = true)
+                    }
             }
         }
     }
