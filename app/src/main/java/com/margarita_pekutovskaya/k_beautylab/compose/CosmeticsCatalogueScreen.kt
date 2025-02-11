@@ -2,6 +2,7 @@
 
 package com.margarita_pekutovskaya.k_beautylab.compose
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -38,9 +39,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -58,7 +63,7 @@ import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewMo
 @Composable
 fun CosmeticsCatalogueScreen(
     modifier: Modifier,
-    onNavigateToDetails:() -> Unit,
+    onNavigateToDetails: () -> Unit,
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
     var isSearchActive by rememberSaveable { mutableStateOf(false) }
@@ -73,13 +78,16 @@ fun CosmeticsCatalogueScreen(
             } else {
                 CatalogueTopBar(onSearchClick = { isSearchActive = true })
             }
-        }
+        },
     )
     { innerPadding ->
         CosmeticsCatalogueContent(
             innerPadding = innerPadding,
             viewModel = viewModel,
-            modifier = modifier,
+            modifier = modifier
+                .fillMaxSize()
+                .height(59.dp)
+                .background(brush = getGradientBrush()),
             onNavigateToDetails = {
                 onNavigateToDetails()
             }
@@ -105,7 +113,10 @@ private fun SearchBarPanel(
         active = true,
         onActiveChange = {},
         placeholder = {
-            Text(text = stringResource(R.string.toolbar_search_items))
+            Text(
+                text = stringResource(R.string.toolbar_search_items),
+                fontFamily = FontFamily(Font(R.font.cabin_variable_font_wght))
+            )
         },
         leadingIcon = {
             Icon(
@@ -139,12 +150,16 @@ private fun SearchBarPanel(
 private fun CatalogueTopBar(onSearchClick: () -> Unit) {
     TopAppBar(
         title = {
-            Text(text = stringResource(R.string.toolbar_description_catalogue))
+            Text(
+                text = stringResource(R.string.toolbar_description_catalogue),
+                fontFamily = FontFamily(Font(R.font.cabin_variable_font_wght))
+            )
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.DarkGray,
+            containerColor = colorResource(id = R.color.button_color),
             titleContentColor = Color.White
         ),
+        modifier = Modifier.shadow(elevation = 5.dp),
         actions = {
             IconButton(onClick = onSearchClick) {
                 Icon(
@@ -159,7 +174,7 @@ private fun CatalogueTopBar(onSearchClick: () -> Unit) {
 
 @Composable
 private fun CosmeticsCatalogueContent(
-    onNavigateToDetails:() -> Unit,
+    onNavigateToDetails: () -> Unit,
     innerPadding: PaddingValues,
     viewModel: CosmeticCatalogueViewModel,
     modifier: Modifier = Modifier,
@@ -264,13 +279,14 @@ private fun CosmeticsCatalogueItem(
             model = item.imageLink,
             contentDescription = null,
             modifier = Modifier
-                .size(200.dp)
+                .size(180.dp)
         )
 
         Column(modifier = modifier.padding(start = 12.dp)) {
             Text(
                 text = item.name,
-                fontSize = 16.sp,
+                fontFamily = FontFamily(Font(R.font.cabin_variable_font_wght)),
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(
@@ -285,7 +301,7 @@ private fun CosmeticsCatalogueItem(
 
 @Preview(showBackground = true)
 @Composable
-fun ShowErrorMessagePreview(){
+fun ShowErrorMessagePreview() {
     KBeautyLabTheme {
         ShowErrorMessage(
             onRetryClick = {}
@@ -295,7 +311,7 @@ fun ShowErrorMessagePreview(){
 
 @Preview(showBackground = true)
 @Composable
-fun CosmeticCatalogueItemPreview(){
+fun CosmeticCatalogueItemPreview() {
     KBeautyLabTheme {
         CosmeticsCatalogueItem(
             item = CosmeticItem(
