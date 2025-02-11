@@ -1,10 +1,12 @@
 package com.margarita_pekutovskaya.k_beautylab.compose
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.colorResource
 import com.margarita_pekutovskaya.k_beautylab.R
 
+@ReadOnlyComposable
 @Composable
 fun getGradientBrush(): Brush {
     return Brush.verticalGradient(
