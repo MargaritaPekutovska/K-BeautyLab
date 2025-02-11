@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -65,10 +65,15 @@ fun CosmeticsItemDetailsScreen(
                             fontFamily = FontFamily(Font(R.font.cabin_variable_font_wght))
                         )
                     },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = colorResource(id = R.color.button_color),
+                        titleContentColor = Color.White
+                    ),
                     navigationIcon = {
                         IconButton(onClick = onNavigateBack) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                tint = Color.White,
                                 contentDescription = stringResource(id = R.string.top_bar_details_content_description)
                             )
                         }
@@ -79,18 +84,8 @@ fun CosmeticsItemDetailsScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .fillMaxWidth()
                         .height(59.dp)
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = listOf(
-                                    colorResource(id = R.color.dark_pink),
-                                    colorResource(id = R.color.light_pink),
-                                    colorResource(id = R.color.white),
-                                    colorResource(id = R.color.light_green1)
-                                )
-                            )
-                        )
+                        .background(brush = getGradientBrush())
                         .padding(padding)
                         .padding(16.dp)
                 ) {

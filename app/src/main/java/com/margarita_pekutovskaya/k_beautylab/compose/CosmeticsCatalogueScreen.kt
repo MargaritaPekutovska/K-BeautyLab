@@ -40,7 +40,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -87,18 +86,8 @@ fun CosmeticsCatalogueScreen(
             viewModel = viewModel,
             modifier = modifier
                 .fillMaxSize()
-                .fillMaxWidth()
                 .height(59.dp)
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            colorResource(id = R.color.dark_pink),
-                            colorResource(id = R.color.light_pink),
-                            colorResource(id = R.color.white),
-                            colorResource(id = R.color.light_green1)
-                        )
-                    )
-                ),
+                .background(brush = getGradientBrush()),
             onNavigateToDetails = {
                 onNavigateToDetails()
             }
@@ -126,7 +115,7 @@ private fun SearchBarPanel(
         placeholder = {
             Text(
                 text = stringResource(R.string.toolbar_search_items),
-                fontFamily = FontFamily(Font(R.font.abril_fatface_regular))
+                fontFamily = FontFamily(Font(R.font.cabin_variable_font_wght))
             )
         },
         leadingIcon = {
