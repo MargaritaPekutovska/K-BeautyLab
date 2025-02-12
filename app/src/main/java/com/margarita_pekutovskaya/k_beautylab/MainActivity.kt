@@ -19,25 +19,25 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
         setContent {
             KBeautyLabTheme {
                 var currentScreen: Screen by remember { mutableStateOf(Screen.COSMETICS_CATALOGUE) }
                 when (currentScreen) {
-                    Screen.SCREEN_DETAILS -> {
-                        CosmeticsItemDetailsScreen(
-                            onNavigateBack = {
-                                currentScreen = Screen.COSMETICS_CATALOGUE
-                            }
-                        )
-                    }
 
                     Screen.COSMETICS_CATALOGUE -> {
                         CosmeticsCatalogueScreen(
                             modifier = Modifier.fillMaxSize(),
                             onNavigateToDetails = {
                                 currentScreen = Screen.SCREEN_DETAILS
+                            }
+                        )
+                    }
+
+                    Screen.SCREEN_DETAILS -> {
+                        CosmeticsItemDetailsScreen(
+                            onNavigateBack = {
+                                currentScreen = Screen.COSMETICS_CATALOGUE
                             }
                         )
                     }

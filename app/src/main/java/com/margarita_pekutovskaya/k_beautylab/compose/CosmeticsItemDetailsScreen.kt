@@ -21,7 +21,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -52,6 +54,7 @@ fun CosmeticsItemDetailsScreen(
     onNavigateBack: () -> Unit,
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
+
     val selectedItem = viewModel.selectedCosmeticItem
 
     selectedItem?.let { cosmeticItem ->
@@ -133,8 +136,24 @@ fun CosmeticsItemDetailsScreen(
                         Spacer(modifier = Modifier.padding(20.dp))
                     }
 
+                    var showSnackbar by remember { mutableStateOf(false) }
+
+                    if (showSnackbar) {
+                        Snackbar(
+                            modifier = Modifier.padding(16.dp),
+                            containerColor = colorResource(id=R.color.dark_pink),
+                            action = {
+                                TextButton(onClick = { showSnackbar = false }) {
+                                    Text("OK", color = Color.White)
+                                }
+                            }
+                        ) {
+                            Text("It's Snackbar!")
+                        }
+                    }
+
                     Button(
-                        onClick = {},
+                        onClick = { showSnackbar=true},
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxWidth()
@@ -145,7 +164,7 @@ fun CosmeticsItemDetailsScreen(
                             contentColor = colorResource(id = R.color.white)
                         )
                     ) {
-                        Text(text = stringResource(id = R.string.button_details_text))
+                        Text("Show Sneckbar")
                     }
                 }
             }
