@@ -12,4 +12,7 @@
     <string name="button_details_text">Select Product</string>
     <string name="run_text">No cosmetic item selected</string>
     <string name="top_bar_details_content_description">Back</string>
+    <string name="snackbar_button_text">OK</string>
+    <string name="snackbar_info">You have added an item !</string>
+    <string name="snackbar_show">Show Snackbar</string>
 </resources>

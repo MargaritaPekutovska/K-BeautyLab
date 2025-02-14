@@ -140,15 +140,15 @@ fun CosmeticsItemDetailsScreen(
 
                     if (showSnackbar) {
                         Snackbar(
-                            modifier = Modifier.padding(16.dp),
+                            modifier = Modifier.padding(end = 16.dp),
                             containerColor = colorResource(id=R.color.dark_pink),
                             action = {
                                 TextButton(onClick = { showSnackbar = false }) {
-                                    Text("OK", color = Color.White)
+                                    Text(text = stringResource(id=R.string.snackbar_button_text), color = Color.White)
                                 }
                             }
                         ) {
-                            Text("It's Snackbar!")
+                            Text(text = stringResource(id=R.string.snackbar_info))
                         }
                     }
 
@@ -164,7 +164,7 @@ fun CosmeticsItemDetailsScreen(
                             contentColor = colorResource(id = R.color.white)
                         )
                     ) {
-                        Text("Show Sneckbar")
+                        Text(text = stringResource(id=R.string.snackbar_show))
                     }
                 }
             }
