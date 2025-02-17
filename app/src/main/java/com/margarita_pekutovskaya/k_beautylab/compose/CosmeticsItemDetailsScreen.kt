@@ -138,33 +138,43 @@ fun CosmeticsItemDetailsScreen(
 
                     var showSnackbar by remember { mutableStateOf(false) }
 
-                    if (showSnackbar) {
-                        Snackbar(
-                            modifier = Modifier.padding(end = 16.dp),
-                            containerColor = colorResource(id=R.color.dark_pink),
-                            action = {
-                                TextButton(onClick = { showSnackbar = false }) {
-                                    Text(text = stringResource(id=R.string.snackbar_button_text), color = Color.White)
-                                }
-                            }
-                        ) {
-                            Text(text = stringResource(id=R.string.snackbar_info))
-                        }
-                    }
-
-                    Button(
-                        onClick = { showSnackbar=true},
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth()
-                            .height(40.dp)
-                            .align(Alignment.CenterHorizontally),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = colorResource(id = R.color.button_color),
-                            contentColor = colorResource(id = R.color.white)
-                        )
+                    Box(modifier = Modifier
+                        .fillMaxSize()
                     ) {
-                        Text(text = stringResource(id=R.string.snackbar_show))
+                        if (showSnackbar) {
+                            Snackbar(
+                                modifier = Modifier
+                                    .padding(end = 16.dp)
+                                    .align(Alignment.CenterStart)
+                                ,
+                                containerColor = colorResource(id = R.color.dark_pink),
+                                action = {
+                                    TextButton(onClick = { showSnackbar = false }) {
+                                        Text(
+                                            text = stringResource(id = R.string.snackbar_button_text),
+                                            color = Color.White
+                                        )
+                                    }
+                                }
+                            ) {
+                                Text(text = stringResource(id = R.string.snackbar_info))
+                            }
+                        }
+
+                        Button(
+                            onClick = { showSnackbar = true },
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth()
+                                .height(40.dp)
+                                .align(Alignment.BottomCenter),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = colorResource(id = R.color.button_color),
+                                contentColor = colorResource(id = R.color.white)
+                            )
+                        ) {
+                            Text(text = stringResource(id = R.string.snackbar_show))
+                        }
                     }
                 }
             }
