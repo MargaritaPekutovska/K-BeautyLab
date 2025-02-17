@@ -21,7 +21,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -52,6 +54,7 @@ fun CosmeticsItemDetailsScreen(
     onNavigateBack: () -> Unit,
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
+
     val selectedItem = viewModel.selectedCosmeticItem
 
     selectedItem?.let { cosmeticItem ->
@@ -133,19 +136,45 @@ fun CosmeticsItemDetailsScreen(
                         Spacer(modifier = Modifier.padding(20.dp))
                     }
 
-                    Button(
-                        onClick = {},
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth()
-                            .height(40.dp)
-                            .align(Alignment.CenterHorizontally),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = colorResource(id = R.color.button_color),
-                            contentColor = colorResource(id = R.color.white)
-                        )
+                    var showSnackbar by remember { mutableStateOf(false) }
+
+                    Box(modifier = Modifier
+                        .fillMaxSize()
                     ) {
-                        Text(text = stringResource(id = R.string.button_details_text))
+                        if (showSnackbar) {
+                            Snackbar(
+                                modifier = Modifier
+                                    .padding(end = 16.dp)
+                                    .align(Alignment.CenterStart)
+                                ,
+                                containerColor = colorResource(id = R.color.dark_pink),
+                                action = {
+                                    TextButton(onClick = { showSnackbar = false }) {
+                                        Text(
+                                            text = stringResource(id = R.string.snackbar_button_text),
+                                            color = Color.White
+                                        )
+                                    }
+                                }
+                            ) {
+                                Text(text = stringResource(id = R.string.snackbar_info))
+                            }
+                        }
+
+                        Button(
+                            onClick = { showSnackbar = true },
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth()
+                                .height(40.dp)
+                                .align(Alignment.BottomCenter),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = colorResource(id = R.color.button_color),
+                                contentColor = colorResource(id = R.color.white)
+                            )
+                        ) {
+                            Text(text = stringResource(id = R.string.snackbar_show))
+                        }
                     }
                 }
             }
