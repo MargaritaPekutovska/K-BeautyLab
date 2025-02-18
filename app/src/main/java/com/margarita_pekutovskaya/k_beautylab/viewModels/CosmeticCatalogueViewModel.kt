@@ -51,11 +51,11 @@ class CosmeticCatalogueViewModel(
     private suspend fun runOnCosmeticList(
         getCosmeticItems: suspend () -> List<CosmeticItem>
     ) {
-        try {
+        uiState = try {
             val cosmeticItems = getCosmeticItems()
-            uiState = CosmeticCatalogueUIState.DataLoaded(cosmeticItems)
+            CosmeticCatalogueUIState.DataLoaded(cosmeticItems)
         } catch (exception: Exception) {
-            uiState = CosmeticCatalogueUIState.Error(exception)
+            CosmeticCatalogueUIState.Error(exception)
         }
     }
 

@@ -6,6 +6,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface CosmeticsApi {
-    @GET("api/v1/products.json?brand=covergirl&product_type=lipstick")
+    @GET("api/v1/products.json?brand=maybelline")
    suspend fun fetchCosmeticProducts(): List<CosmeticItem>
 }
