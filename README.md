@@ -12,7 +12,7 @@ This project demonstrates modern Android development practices using Kotlin and 
 
 ## 📸 Screenshots
 
-Will be added later
+<img src="screenshots/IMG_8447.JPG"/>
 
 ## 🛠️ Tech Stack
 - Jetpack Compose
