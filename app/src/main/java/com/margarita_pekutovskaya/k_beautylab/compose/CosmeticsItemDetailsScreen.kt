@@ -1,6 +1,5 @@
 package com.margarita_pekutovskaya.k_beautylab.compose
 
-import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -47,7 +47,6 @@ import coil3.compose.rememberAsyncImagePainter
 import com.margarita_pekutovskaya.k_beautylab.R
 import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CosmeticsItemDetailsScreen(
@@ -55,9 +54,7 @@ fun CosmeticsItemDetailsScreen(
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
 
-    val selectedItem = viewModel.selectedCosmeticItem
-
-    selectedItem?.let { cosmeticItem ->
+    viewModel.selectedCosmeticItem?.let { cosmeticItem ->
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -119,8 +116,8 @@ fun CosmeticsItemDetailsScreen(
                         Column {
                             Text(
                                 text = if (isExpanded) cosmeticItem.description else cosmeticItem.description.take(
-                                    100
-                                ) + "...",
+                                    DESCRIPTION_PREVIEW_LENGTH
+                                ) + ELLIPSIS,
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontSize = 18.sp,
                                 maxLines = if (isExpanded) Int.MAX_VALUE else 3
@@ -138,15 +135,16 @@ fun CosmeticsItemDetailsScreen(
 
                     var showSnackbar by remember { mutableStateOf(false) }
 
-                    Box(modifier = Modifier
-                        .fillMaxSize()
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
                     ) {
                         if (showSnackbar) {
                             Snackbar(
                                 modifier = Modifier
                                     .padding(end = 16.dp)
-                                    .align(Alignment.CenterStart)
-                                ,
+                                    .align(Alignment.BottomCenter)
+                                    .offset(y = -80.dp),
                                 containerColor = colorResource(id = R.color.dark_pink),
                                 action = {
                                     TextButton(onClick = { showSnackbar = false }) {
@@ -193,3 +191,6 @@ fun CosmeticsItemDetailsScreen(
         onNavigateBack()
     }
 }
+
+private const val DESCRIPTION_PREVIEW_LENGTH = 100
+private const val ELLIPSIS = "..."
