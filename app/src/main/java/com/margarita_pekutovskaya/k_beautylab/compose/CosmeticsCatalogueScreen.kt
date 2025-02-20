@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.margarita_pekutovskaya.k_beautylab.R
+import com.margarita_pekutovskaya.k_beautylab.compose.util.getGradientBrush
 import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
 import com.margarita_pekutovskaya.k_beautylab.ui.theme.KBeautyLabTheme
 import com.margarita_pekutovskaya.k_beautylab.uiState.CosmeticCatalogueUIState

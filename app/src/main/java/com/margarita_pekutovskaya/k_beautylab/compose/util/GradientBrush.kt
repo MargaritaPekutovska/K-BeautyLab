@@ -1,4 +1,4 @@
-package com.margarita_pekutovskaya.k_beautylab.compose
+package com.margarita_pekutovskaya.k_beautylab.compose.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable

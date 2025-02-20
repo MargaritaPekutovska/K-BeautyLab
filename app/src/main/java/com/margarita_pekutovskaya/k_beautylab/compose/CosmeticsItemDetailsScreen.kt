@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.rememberAsyncImagePainter
 import com.margarita_pekutovskaya.k_beautylab.R
+import com.margarita_pekutovskaya.k_beautylab.compose.util.getGradientBrush
 import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
