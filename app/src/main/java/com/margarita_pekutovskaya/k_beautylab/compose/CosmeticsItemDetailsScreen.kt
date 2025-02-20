@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,6 +47,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.rememberAsyncImagePainter
 import com.margarita_pekutovskaya.k_beautylab.R
 import com.margarita_pekutovskaya.k_beautylab.compose.util.getGradientBrush
+import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
 import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,7 +56,6 @@ fun CosmeticsItemDetailsScreen(
     onNavigateBack: () -> Unit,
     viewModel: CosmeticCatalogueViewModel = viewModel(factory = CosmeticCatalogueViewModel.Factory)
 ) {
-
     viewModel.selectedCosmeticItem?.let { cosmeticItem ->
         Scaffold(
             topBar = {
@@ -82,100 +83,10 @@ fun CosmeticsItemDetailsScreen(
                 )
             },
             content = { padding ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .height(59.dp)
-                        .background(brush = getGradientBrush())
-                        .padding(padding)
-                        .padding(16.dp)
-                ) {
-                    Image(
-                        painter = rememberAsyncImagePainter(model = cosmeticItem.imageLink),
-                        contentDescription = cosmeticItem.name,
-                        modifier = Modifier
-                            .shadow(elevation = 10.dp)
-                            .fillMaxWidth()
-                            .height(250.dp)
-                            .background(Color.White)
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Text(
-                        text = cosmeticItem.name,
-                        fontFamily = FontFamily(Font(R.font.cabin_variable_font_wght)),
-                        fontSize = 28.sp,
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    var isExpanded by remember { mutableStateOf(false) }
-
-                    Box(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
-                        Column {
-                            Text(
-                                text = if (isExpanded) cosmeticItem.description else cosmeticItem.description.take(
-                                    DESCRIPTION_PREVIEW_LENGTH
-                                ) + ELLIPSIS,
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontSize = 18.sp,
-                                maxLines = if (isExpanded) Int.MAX_VALUE else 3
-                            )
-                            Spacer(modifier = Modifier.padding(6.dp))
-                            Text(
-                                text = if (isExpanded) stringResource(id = R.string.top_bar_content_text1)
-                                else stringResource(id = R.string.top_bar_content_text2),
-                                color = colorResource(id = R.color.dark_pink),
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                        }
-                        Spacer(modifier = Modifier.padding(20.dp))
-                    }
-
-                    var showSnackbar by remember { mutableStateOf(false) }
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
-                        if (showSnackbar) {
-                            Snackbar(
-                                modifier = Modifier
-                                    .padding(end = 16.dp)
-                                    .align(Alignment.BottomCenter)
-                                    .offset(y = -80.dp),
-                                containerColor = colorResource(id = R.color.dark_pink),
-                                action = {
-                                    TextButton(onClick = { showSnackbar = false }) {
-                                        Text(
-                                            text = stringResource(id = R.string.snackbar_button_text),
-                                            color = Color.White
-                                        )
-                                    }
-                                }
-                            ) {
-                                Text(text = stringResource(id = R.string.snackbar_info))
-                            }
-                        }
-
-                        Button(
-                            onClick = { showSnackbar = true },
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxWidth()
-                                .height(40.dp)
-                                .align(Alignment.BottomCenter),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = colorResource(id = R.color.button_color),
-                                contentColor = colorResource(id = R.color.white)
-                            )
-                        ) {
-                            Text(text = stringResource(id = R.string.snackbar_show))
-                        }
-                    }
-                }
+                CosmeticDetailsContent(
+                    padding = padding,
+                    cosmeticItem = cosmeticItem
+                )
             }
         )
 
@@ -190,6 +101,107 @@ fun CosmeticsItemDetailsScreen(
 
     BackHandler {
         onNavigateBack()
+    }
+}
+
+@Composable
+private fun CosmeticDetailsContent(
+    padding: PaddingValues,
+    cosmeticItem: CosmeticItem,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .height(59.dp)
+            .background(brush = getGradientBrush())
+            .padding(padding)
+            .padding(16.dp)
+    ) {
+        Image(
+            painter = rememberAsyncImagePainter(model = cosmeticItem.imageLink),
+            contentDescription = cosmeticItem.name,
+            modifier = Modifier
+                .shadow(elevation = 10.dp)
+                .fillMaxWidth()
+                .height(250.dp)
+                .background(Color.White)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = cosmeticItem.name,
+            fontFamily = FontFamily(Font(R.font.cabin_variable_font_wght)),
+            fontSize = 28.sp,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        var isExpanded by remember { mutableStateOf(false) }
+
+        Box(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
+            Column {
+                Text(
+                    text = if (isExpanded) cosmeticItem.description else cosmeticItem.description.take(
+                        DESCRIPTION_PREVIEW_LENGTH
+                    ) + ELLIPSIS,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 18.sp,
+                    maxLines = if (isExpanded) Int.MAX_VALUE else 3
+                )
+                Spacer(modifier = Modifier.padding(6.dp))
+                Text(
+                    text = if (isExpanded) stringResource(id = R.string.top_bar_content_text1)
+                    else stringResource(id = R.string.top_bar_content_text2),
+                    color = colorResource(id = R.color.dark_pink),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+            Spacer(modifier = Modifier.padding(20.dp))
+        }
+
+        var showSnackbar by remember { mutableStateOf(false) }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            if (showSnackbar) {
+                Snackbar(
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .align(Alignment.BottomCenter)
+                        .offset(y = -80.dp),
+                    containerColor = colorResource(id = R.color.dark_pink),
+                    action = {
+                        TextButton(onClick = { showSnackbar = false }) {
+                            Text(
+                                text = stringResource(id = R.string.snackbar_button_text),
+                                color = Color.White
+                            )
+                        }
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.snackbar_info))
+                }
+            }
+
+            Button(
+                onClick = { showSnackbar = true },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .height(40.dp)
+                    .align(Alignment.BottomCenter),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(id = R.color.button_color),
+                    contentColor = colorResource(id = R.color.white)
+                )
+            ) {
+                Text(text = stringResource(id = R.string.snackbar_show))
+            }
+        }
     }
 }
 
