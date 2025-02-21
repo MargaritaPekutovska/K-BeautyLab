@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,8 +24,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,7 +47,7 @@ import com.margarita_pekutovskaya.k_beautylab.compose.util.getGradientBrush
 import com.margarita_pekutovskaya.k_beautylab.data.model.CosmeticItem
 import com.margarita_pekutovskaya.k_beautylab.viewModels.CosmeticCatalogueViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun CosmeticsItemDetailsScreen(
     onNavigateBack: () -> Unit,
@@ -59,18 +56,8 @@ fun CosmeticsItemDetailsScreen(
     viewModel.selectedCosmeticItem?.let { cosmeticItem ->
         Scaffold(
             topBar = {
-                TopAppBar(
-                    modifier = Modifier.shadow(elevation = 5.dp),
-                    title = {
-                        Text(
-                            text = stringResource(id = R.string.top_app_bar_title),
-                            fontFamily = FontFamily(Font(R.font.cabin_variable_font_wght))
-                        )
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = colorResource(id = R.color.button_color),
-                        titleContentColor = Color.White
-                    ),
+                CatalogueTopBar(
+                    titleText = R.string.top_app_bar_title,
                     navigationIcon = {
                         IconButton(onClick = onNavigateBack) {
                             Icon(
